@@ -3,6 +3,7 @@
 login in the client via ssh (our client VM floating ip is 130.238.28.185):    
 ```
 ssh -i /home/junjie-chu/Desktop/DEKEY/DE2_group11.pem ubuntu@130.238.28.185
+ssh -i /Users/mac/Desktop/HU_2020/H20_Period4/DE2/Project/DE2_Project/DE2_group11.pem ubuntu@130.238.28.185
 ```
 git clone:
 ```
@@ -77,10 +78,32 @@ Install Ansible packages on the client machine.
 ```  
   Add some basic setting for start the instance parameter tuning server.
 # 6. python3 start_instances.py
-Instance: prod_server_group114663 is in ACTIVE state ip address: 192.168.2.81\\
-Instance: dev_server_group114663 is in ACTIVE state ip address: 192.168.2.83\\
-Instance: para_server_group114663 is in ACTIVE state ip address: 192.168.2.180\\
-
+```  
+Instance: prod_server_group11_9473 is in ACTIVE state ip address: 192.168.2.50 130.238.28.49
+Instance: dev_server_group11_9473 is in ACTIVE state ip address:  192.168.2.13 130.238.28.39
+Instance: para_server_group11_9473 is in ACTIVE state ip address: 192.168.2.155 130.238.28.225
+```  
    
 # 7 Edit ansible   
+ssh key
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtSrktFxWmEw/q3queNQcNeGQ0XRHaXe4iWp/1H3WglNGq0UcUr94P97ToVJaMwM9FuCwcmyzdnc72EjtINvuu0TjxarPcaB+w1DXL0PHD59qkAd2eYkBRN3NXtDUnJBxLd0yYOS04k1kH2xGz8BFHTdMOcEfcMPOCnvGbZxB3USOIPWVPIDEts7F3FNkic2A5Es5JmZ0F5eH3UMurBn+UZS2AmvSH5r0h2X/oR+yuymNMBqL/mY7ryJmndSp2n0sPZpgQbFIZPnEgWD/f62l5IFIPX0tJ4QzlqBSybIqSy6W7ZHXPxQea7wJ4zhNrJIph2y1Kmo+8o7Ln2/lOr7b1CDBbkHfSyEF196qgpDJiwCU1FtPnF9WzFta0Xoox8PP3rLUabTPoNBGRXnoElt85uPwLIYsgIQrQsaedYAg00OuZdqglAIFdGgpX0FIf5KbYYF2B8UZAkcwRQ/1VIhanrh7NzlpUTK3vhwct81GvbBAJMGV5ludLN61QEPirIEc= ubuntu@de2-group11-client
+
+change ansible hosts file
+``` 
+[servers]
+prodserver ansible_host=192.168.2.50
+devserver ansible_host=192.168.2.13
+paraserver ansible_host=192.168.2.155
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[prodserver]
+prodserver ansible_connection=ssh ansible_user=appuser
+
+[devserver]
+devserver ansible_connection=ssh ansible_user=appuser
+[paraserver]
+paraserver ansible_connection=ssh ansible_user=appuser
+``` 
 
