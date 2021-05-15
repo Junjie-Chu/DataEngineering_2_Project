@@ -45,6 +45,8 @@ Set the environment variables by sourcing the RC-file in the client VM.
 ***change the user name in the RC file and enter your password after 'source'command!***
 ```
 source 'UPPMAX 2020_1-3-openrc.sh'
+
+then you need enter the password for s18228, the password is ******
 ```
 The successful execution of the following commands will confirm that you have the correct 
 packages available on your client VM:  
@@ -62,4 +64,22 @@ Install Ansible packages on the client machine.
 # apt install ansible
 ```
 # Next step is to enter these IP addresses in the Ansible hosts file. But we need to use cloud init to create and configure 3 VMs first! Change the configuration of clould init!
+
+# 4. Add one cloud init file for Parameter tuning server VM.
+
+# 5. Edit the start_instances.py
+  flavor = "ssc.medium" 
+  private_net = "UPPMAX 2020/1-3 Internal IPv4 Network"
+  floating_ip_pool_name = None
+  floating_ip = None
+  image_name = "Ubuntu 20.04 - 2021.03.23" 
+  
+  Add some basic setting for start the instance parameter tuning server.
+# 6. python3 start_instances.py
+Instance: prod_server_group114663 is in ACTIVE state ip address: 192.168.2.81
+Instance: dev_server_group114663 is in ACTIVE state ip address: 192.168.2.83
+Instance: para_server_group114663 is in ACTIVE state ip address: 192.168.2.180
+
+   
+# 7 Edit ansible   
 
