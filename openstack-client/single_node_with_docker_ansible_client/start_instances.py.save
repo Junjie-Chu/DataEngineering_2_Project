@@ -67,9 +67,9 @@ key_name = 'DE2_group11'
 
 print ("Creating instances ... ")
 instance_prod = nova.servers.create(name="prod_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_prod, nics=nics,security_groups=secgroups)
-instance_dev = nova.servers.create(name="dev_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_dev, nics=nics,security_groups=secgroups)
-instance_para = nova.servers.create(name="para_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_para, nics=nics,security_groups=secgroups)
-
+instance_dev = nova.servers.create(name="dev_server_group11"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_dev, nics=nics,security_groups=secgroups)
+instance_para = nova.servers.create(name="para_server_group11"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_dev, nics=nics,security_groups=secgroups)
+s
 inst_status_prod = instance_prod.status
 inst_status_dev = instance_dev.status
 inst_status_para = instance_para.status

@@ -22,8 +22,8 @@
    - name: Download git repository
      become: true
      git:
-      repo: 'https://github.com/sztoor/model_serving.git'
-      dest: /model_serving 
+      repo: 'https://github.com/Junjie-Chu/DE2_Project.git'
+      dest: /DE2_project 
       
    - name: Change ownership of a directory
      become: true
@@ -34,7 +34,15 @@
       owner: appuser
       group: appuser
 
-- hosts: prod_server
+   - name: Download pip package
+     apt: pkg=python3-pip state=latest update_cache=true
+     become: true
+
+   - name: Install Ray,sklearn packages      
+     become: true
+     pip:
+       name: scikit-learn, ray, ray[tune],tune-sklearn
+- hosts: prodserver
  
   vars_files:
    - setup_var.yml  
@@ -82,15 +90,15 @@
      become: true
      shell: docker build .
      args: 
-      chdir: /model_serving/ci_cd/production_server
+      chdir: /DE2_Project/ci_cd/production_server
 
    - name: Running containers
      become: true
      shell: docker-compose up -d 
      args: 
-      chdir: /model_serving/ci_cd/production_server 
+      chdir: /DE2_Projet/ci_cd/production_server 
 
-- hosts: dev_server
+- hosts: devserver
   
   vars_files:
    - setup_var.yml
@@ -104,3 +112,4 @@
      become: true
      pip: 
       name: keras, tensorflow, numpy, future
+
