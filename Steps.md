@@ -68,17 +68,18 @@ Install Ansible packages on the client machine.
 # 4. Add one cloud init file for Parameter tuning server VM.
 
 # 5. Edit the start_instances.py
+```
   flavor = "ssc.medium" 
   private_net = "UPPMAX 2020/1-3 Internal IPv4 Network"
   floating_ip_pool_name = None
   floating_ip = None
   image_name = "Ubuntu 20.04 - 2021.03.23" 
-  
+```  
   Add some basic setting for start the instance parameter tuning server.
 # 6. python3 start_instances.py
-Instance: prod_server_group114663 is in ACTIVE state ip address: 192.168.2.81
-Instance: dev_server_group114663 is in ACTIVE state ip address: 192.168.2.83
-Instance: para_server_group114663 is in ACTIVE state ip address: 192.168.2.180
+Instance: prod_server_group114663 is in ACTIVE state ip address: 192.168.2.81\\
+Instance: dev_server_group114663 is in ACTIVE state ip address: 192.168.2.83\\
+Instance: para_server_group114663 is in ACTIVE state ip address: 192.168.2.180\\
 
    
 # 7 Edit ansible   
