@@ -42,6 +42,7 @@ export OS_PROJECT_DOMAIN_NAME="snic"
 export OS_PROJECT_NAME="UPPMAX 2020/1-3"
 ```
 Set the environment variables by sourcing the RC-file in the client VM.  
+***change the user name in the RC file and enter your password after 'source'command!***
 ```
 source 'UPPMAX 2020_1-3-openrc.sh'
 ```
