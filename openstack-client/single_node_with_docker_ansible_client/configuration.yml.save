@@ -1,5 +1,6 @@
+- name: ANSIBLE - Shop Installation
+  hosts: all
 
-- hosts: all 
   vars_prompt:
     - name: "githubuser"
       prompt: "Enter your github username"
@@ -7,6 +8,9 @@
     - name: "githubpassword"
       prompt: "Enter your github password"
       private: yes
+
+
+- hosts: all
   
   tasks:
  
@@ -39,35 +43,11 @@
     # sudo: yes
     # when: apt_result|failed
 
-   - name: Change ownership of a directory
+   - name: Download git repository
      become: true
-     file:
-      path: /home
-      state: directory
-      recurse: yes
-      owner: appuser
-      group: appuser
-
-#   - name: Download git repository
-#     become: true
-#     git:
-#      repo: 'https://github.com/Junjie-Chu/DE2_Project.git'
-#      dest: /model_serving
-   - name: Get updated files from git repository
-     git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/Junjie-Chu/DE2_Project.git dest=/home/DE2_Project
-
-
-   - name: Change ownership of a directory
-     become: true
-     file:
-      path: /home
-      state: directory
-      recurse: yes
-      owner: appuser
-      group: appuser
-
-   - name: Get updated files from git repository
-     git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/Junjie-Chu/DE2_Project.git dest=/home/DE_Project  
+     git:
+      repo: 'https://github.com/Junjie-Chu/DE2_Project.git'
+      dest: /model_serving
       
    - name: Change ownership of a directory
      become: true
@@ -135,13 +115,13 @@
      become: true
      shell: docker build .
      args: 
-      chdir: /home/DE2_Project/ci_cd/production_server
+      chdir: /DE2_Project/ci_cd/production_server
 
    - name: Running containers
      become: true
      shell: docker-compose up -d 
      args: 
-      chdir: /home/DE2_Project/ci_cd/production_server 
+      chdir: /DE2_Project/ci_cd/production_server 
 
 - hosts: devserver
   

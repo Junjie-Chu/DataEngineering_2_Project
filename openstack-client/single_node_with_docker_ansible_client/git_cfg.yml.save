@@ -1,0 +1,24 @@
+- name: ANSIBLE - Shop Installation
+  hosts: all
+
+  vars_prompt:
+    - name: "githubuser"
+      prompt: "Enter your github username"
+      private: no
+    - name: "githubpassword"
+      prompt: "Enter your github password"
+      private: yes
+  
+  tasks:
+
+  - name: Change ownership of a directory
+    become: true
+    file:
+     path: /home
+     state: directory
+     recurse: yes
+     owner: appuser
+     group: appuser
+
+  - name: Get updated files from git repository
+    git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/Junjie-Chu/DE2_Project.git dest=/home/test
