@@ -106,4 +106,14 @@ devserver ansible_connection=ssh ansible_user=appuser
 [paraserver]
 paraserver ansible_connection=ssh ansible_user=appuser
 ``` 
+``` 
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.29.250
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.39
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.225
+``` 
 
+# 8 Start the ansible configuration
+``` 
+export ANSIBLE_HOST_KEY_CHECKING=False
+ansible-playbook configuration.yml --private-key=/home/ubuntu/cluster-keys/cluster-key
+``` 
