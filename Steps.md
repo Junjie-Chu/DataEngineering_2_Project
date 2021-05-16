@@ -107,7 +107,7 @@ devserver ansible_connection=ssh ansible_user=appuser
 paraserver ansible_connection=ssh ansible_user=appuser
 ``` 
 ``` 
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.49
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.29.250
 ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.39
 ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.225
 ``` 
