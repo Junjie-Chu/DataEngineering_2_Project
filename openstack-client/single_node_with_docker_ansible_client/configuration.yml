@@ -26,18 +26,6 @@
    - name: apt update
      apt: update_cache=yes cache_valid_time=3600
      become: true
-#     apt: update_cache=yes cache_valid_time=3600
-#     register: apt_result
- #    until: apt_result|success
-  #   retries: 3
-   #  delay: 1
-    # sudo: yes
-    # ignore_errors: yes
-
-  # - name: retry if needed using command apt-get update
-    # command: apt-get update
-    # sudo: yes
-    # when: apt_result|failed
 
    - name: Change ownership of a directory
      become: true
@@ -48,26 +36,8 @@
       owner: appuser
       group: appuser
 
-#   - name: Download git repository
-#     become: true
-#     git:
-#      repo: 'https://github.com/Junjie-Chu/DE2_Project.git'
-#      dest: /model_serving
    - name: Get updated files from git repository
      git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/Junjie-Chu/DE2_Project.git dest=/home/DE2_Project
-
-
-   - name: Change ownership of a directory
-     become: true
-     file:
-      path: /home
-      state: directory
-      recurse: yes
-      owner: appuser
-      group: appuser
-
-   - name: Get updated files from git repository
-     git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/Junjie-Chu/DE2_Project.git dest=/home/DE_Project  
       
    - name: Change ownership of a directory
      become: true
