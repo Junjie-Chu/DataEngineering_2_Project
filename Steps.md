@@ -79,9 +79,9 @@ Install Ansible packages on the client machine.
   Add some basic setting for start the instance parameter tuning server.
 # 6. python3 start_instances.py
 ```  
-Instance: prod_server_group11_9473 is in ACTIVE state ip address: 192.168.2.50 130.238.28.49
-Instance: dev_server_group11_9473 is in ACTIVE state ip address:  192.168.2.13 130.238.28.39
-Instance: para_server_group11_9473 is in ACTIVE state ip address: 192.168.2.155 130.238.28.225
+Instance: prod_server_group11_9473 is in ACTIVE state ip address: 192.168.2.166 130.238.29.82
+Instance: dev_server_group11_9473 is in ACTIVE state ip address:  192.168.2.6
+Instance: para_server_group11_9473 is in ACTIVE state ip address: 192.168.2.216
 ```  
    
 # 7 Edit ansible   
