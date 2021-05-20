@@ -123,3 +123,25 @@ ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.225
 export ANSIBLE_HOST_KEY_CHECKING=False
 ansible-playbook configuration.yml --private-key=/home/ubuntu/cluster-keys/cluster-key
 ``` 
+
+# 9 After completing running ansible, test ci/cd
+![image](https://user-images.githubusercontent.com/65893273/118987764-2373ac80-b9b3-11eb-8116-61b818c90cdc.png) 
+log in devserver:  
+```
+ssh -i cluster-key appuser@<DEVELOPMENT-SERVER-IP>
+```
+Go to the /home/appuser/my_project directory  
+Add files for the commit and commit files   
+```
+git add .
+git commit -m "test 1"
+```
+Connect development server's git to production server's git  
+```
+git remote add production appuser@<PRODUCTIONS-SERVER-IP>:/home/appuser/my_project
+```
+Push your commits to the production server  
+```
+git push production master
+```
+![image](https://user-images.githubusercontent.com/65893273/118987886-469e5c00-b9b3-11eb-917d-1b5c19ab3ecb.png)
