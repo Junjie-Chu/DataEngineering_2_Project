@@ -128,3 +128,62 @@
      pip: 
       name: keras, tensorflow, numpy, future
 
+   - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+     community.crypto.openssh_keypair:
+       path: /home/appuser/.ssh/id_rsa
+       force: True
+
+   - name: Copy dev key from dev to local host
+     fetch:
+       src: /home/appuser/.ssh/id_rsa.pub
+       dest: /tmp/special/
+       flat: yes
+
+   - name: Make dir
+     command: mkdir -p /home/appuser/my_project
+
+   - name: Git init
+     command: git init 
+     args:
+       chdir: /home/appuser/my_project/
+
+   - name: Add first model
+     command: cp /home/DE2_Project/ci_cd/development_server/model.h5 /home/DE2_Project/ci_cd/development_server/model.json /home/appuser/my_project/
+
+- hosts: prodserver
+
+  vars_files:
+   - setup_var.yml
+
+  tasks:
+   - name: Copy dev key from local host to prod
+     copy: 
+       src: /tmp/special/id_rsa.pub
+       dest: /home/appuser/
+       force: true
+
+   - name: Set authorized key taken from file
+     ansible.posix.authorized_key:
+       user: appuser
+       state: present
+       key: "{{ lookup('file', '/tmp/special/id_rsa.pub') }}"
+
+   - name: Make dir
+     command: mkdir -p /home/appuser/my_project
+
+   - name: Git init --bare
+     command: git init --bare
+     args:
+       chdir: /home/appuser/my_project/
+
+   - name: Copy post-receive from local host to prod
+     copy:
+       src: /home/ubuntu/DE2_Project/ci_cd/post-receive
+       dest: /home/appuser/my_project/.git/hooks/
+       force: true
+
+   - name: Change mode of hooks
+     command: chmod +x post-receive
+     args:
+       chdir: /home/appuser/my_project/.git/hooks/
+
