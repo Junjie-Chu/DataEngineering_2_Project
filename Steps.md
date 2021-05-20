@@ -64,6 +64,10 @@ Install Ansible packages on the client machine.
 # apt update
 # apt install ansible
 ```
+Extra packages:  
+```
+ansible-galaxy collection install community.crypto
+```
 # Next step is to enter these IP addresses in the Ansible hosts file. But we need to use cloud init to create and configure 3 VMs first! Change the configuration of clould init!
 
 # 4. Add one cloud init file for Parameter tuning server VM.
