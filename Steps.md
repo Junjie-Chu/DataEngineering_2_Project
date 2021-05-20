@@ -125,7 +125,7 @@ ansible-playbook configuration.yml --private-key=/home/ubuntu/cluster-keys/clust
 ``` 
 
 # 9 After completing running ansible, test ci/cd
-![image](https://user-images.githubusercontent.com/65893273/118987764-2373ac80-b9b3-11eb-8116-61b818c90cdc.png) 
+![image](https://user-images.githubusercontent.com/65893273/118987764-2373ac80-b9b3-11eb-8116-61b818c90cdc.png)  
 log in devserver:  
 ```
 ssh -i cluster-key appuser@<DEVELOPMENT-SERVER-IP>
