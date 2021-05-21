@@ -57,6 +57,12 @@
      pip:
        name: scikit-learn, ray, ray[tune],tune-sklearn
 
+   - name: Install extra packages from mandus
+     become: true
+     pip:
+      name: pandas,requests,matplotlib,PyGithub,tensorflow
+
+
 - hosts: prodserver
  
   vars_files:
@@ -150,6 +156,10 @@
    - name: Add first model
      command: cp /home/DE2_Project/ci_cd/development_server/model.h5 /home/DE2_Project/ci_cd/development_server/model.json /home/appuser/my_project/
 
+   - name: Install jupyter
+     command: python3 -m pip install jupyterlab
+
+ 
 - hosts: prodserver
 
   vars_files:
