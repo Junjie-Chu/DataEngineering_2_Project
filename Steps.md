@@ -145,3 +145,10 @@ Push your commits to the production server
 git push production master
 ```
 ![image](https://user-images.githubusercontent.com/65893273/118987886-469e5c00-b9b3-11eb-917d-1b5c19ab3ecb.png)
+
+
+# 10 Build ray cluster, three virtual machines are used to parameters tuning. You can add the code for you rayTune programme.
+```
+import ray
+    ray.init(address='auto', _redis_password='5241590000000000')
+```
