@@ -150,5 +150,5 @@ git push production master
 # 10 Build ray cluster, three virtual machines are used to parameters tuning. You can add the code for you rayTune programme.
 ```
 import ray
-    ray.init(address='auto', _redis_password='5241590000000000')
+    ray.init(address='192.168.2.6:6379', _redis_password='5241590000000000')
 ```
