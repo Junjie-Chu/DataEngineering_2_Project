@@ -1,0 +1,201 @@
+
+- hosts: all 
+  vars_prompt:
+    - name: "githubuser"
+      prompt: "Enter your github username"
+      private: no
+    - name: "githubpassword"
+      prompt: "Enter your github password"
+      private: yes
+  
+  tasks:
+ 
+   - name: Generate hosts file
+     lineinfile: dest=/etc/hosts
+                 regexp='.*{{ item }}$'
+                 line="{{ hostvars[item].ansible_default_ipv4.address }} {{item}}"
+                 state=present            
+     when: hostvars[item].ansible_default_ipv4.address is defined
+     with_items: "{{groups['all']}}"
+     become: true
+     
+   - name: Set hostname
+     hostname: name="{{inventory_hostname}}"
+     become: true
+
+   - name: apt update
+     apt: update_cache=yes cache_valid_time=3600
+     become: true
+
+   - name: Change ownership of a directory
+     become: true
+     file:
+      path: /home
+      state: directory
+      recurse: yes
+      owner: appuser
+      group: appuser
+
+   - name: Get updated files from git repository
+     git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/Junjie-Chu/DE2_Project.git dest=/home/DE2_Project
+      
+   - name: Change ownership of a directory
+     become: true
+     file:
+      path: /technical-training
+      state: directory
+      recurse: yes
+      owner: appuser
+      group: appuser
+
+   - name: Download pip package
+     apt: pkg=python3-pip state=latest update_cache=true
+     become: true
+
+   - name: Install Ray,sklearn packages      
+     become: true
+     pip:
+       name: scikit-learn, ray, ray[tune],tune-sklearn
+
+   - name: Install extra packages from mandus
+     become: true
+     pip:
+      name: pandas,requests,matplotlib,PyGithub,tensorflow
+
+
+- hosts: prodserver
+ 
+  vars_files:
+   - setup_var.yml  
+  
+  tasks:  
+   - name: Extra packages
+     apt: pkg={{item}} state=latest update_cache=true 
+     with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+     become: true  
+
+   - name: apt update
+     apt: update_cache=yes upgrade=dist
+     become: true
+
+   - name: Add Docker repository key
+     apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+     become: true
+
+   - name: Add Docker repository 
+     command: add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+     become: true
+
+   - name: apt update
+     apt: update_cache=yes upgrade=dist
+     become: true
+
+   - name: Install Docker  
+     apt: pkg=docker-ce state=present update_cache=true allow_unauthenticated=yes
+     become: true
+
+   - name: Download docker-compose 
+     become: yes
+     get_url:        
+      url: "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-{{ansible_system}}-{{ansible_architecture}}"
+      dest: /usr/local/bin/docker-compose
+      mode: +x  
+
+   - name: Building containers
+     become: true
+     shell: docker build .
+     args: 
+      chdir: /home/DE2_Project/ci_cd/production_server
+
+   - name: Running containers
+     become: true
+     shell: docker-compose up -d 
+     args: 
+      chdir: /home/DE2_Project/ci_cd/production_server 
+
+- hosts: devserver
+  
+  vars_files:
+   - setup_var.yml
+
+  tasks:
+   - name: Extra packages
+     apt: pkg=python3-pip state=latest update_cache=true  
+     become: true
+
+   - name: Install ML packages
+     become: true
+     pip: 
+      name: keras, tensorflow, numpy, future
+
+   - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+     community.crypto.openssh_keypair:
+       path: /home/appuser/.ssh/id_rsa
+       force: True
+
+   - name: Copy dev key from dev to local host
+     fetch:
+       src: /home/appuser/.ssh/id_rsa.pub
+       dest: /tmp/special/
+       flat: yes
+
+   - name: Make dir
+     command: mkdir -p /home/appuser/my_project
+
+   - name: Git init
+     command: git init 
+     args:
+       chdir: /home/appuser/my_project/
+
+   - name: Add first model
+     command: cp /home/DE2_Project/ci_cd/development_server/model.h5 /home/DE2_Project/ci_cd/development_server/model.json /home/appuser/my_project/
+
+   - name: Install jupyter
+     command: python3 -m pip install jupyterlab
+
+   - name: Start jupyterlab
+     command: python3 -m jupyterlab --ip=* --no-browser  
+
+- hosts: prodserver
+
+  vars_files:
+   - setup_var.yml
+
+  tasks:
+   - name: Copy dev key from local host to prod
+     copy: 
+       src: /tmp/special/id_rsa.pub
+       dest: /home/appuser/
+       force: true
+
+   - name: Set authorized key taken from file
+     ansible.posix.authorized_key:
+       user: appuser
+       state: present
+       key: "{{ lookup('file', '/tmp/special/id_rsa.pub') }}"
+
+   - name: Make dir
+     command: mkdir -p /home/appuser/my_project
+
+   - name: Git init --bare
+     command: git init --bare
+     args:
+       chdir: /home/appuser/my_project/
+
+   - name: Copy post-receive from local host to prod
+     copy:
+       src: /home/ubuntu/DE2_Project/ci_cd/post-receive
+       dest: /home/appuser/my_project/.git/hooks/
+       force: true
+
+   - name: Change mode of hooks
+     command: chmod +x post-receive
+     args:
+       chdir: /home/appuser/my_project/.git/hooks/
+
