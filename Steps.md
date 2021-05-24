@@ -113,9 +113,9 @@ devserver ansible_connection=ssh ansible_user=appuser
 paraserver ansible_connection=ssh ansible_user=appuser
 ``` 
 ``` 
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.29.250
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.39
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@130.238.28.225
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.166
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.6
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.216
 ``` 
 
 # 8 Start the ansible configuration
@@ -151,4 +151,13 @@ git push production master
 ```
 import ray
     ray.init(address='192.168.2.6:6379', _redis_password='5241590000000000')
+```
+
+# 11 Enter development server from client server by using IP and start the jupyter notebook
+```
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.6
+
+# in dev server, must be in port 5100
+jupyter notebook --no-browser --ip=* --port=5100
+
 ```
