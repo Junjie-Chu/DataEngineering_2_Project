@@ -161,3 +161,8 @@ ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.6
 jupyter notebook --no-browser --ip=* --port=5100
 
 ```
+
+# 12 increase the number of workers in production server
+```
+docker-compose up --scale worker_1=3 -d
+```
