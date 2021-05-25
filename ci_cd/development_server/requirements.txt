@@ -1,0 +1,8 @@
+keras
+tensorflow==2.2.0
+future
+numpy
+requests
+matplotlib
+PyGithub
+
