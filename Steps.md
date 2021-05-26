@@ -166,3 +166,30 @@ jupyter notebook --no-browser --ip=* --port=5100
 ```
 docker-compose up --scale worker_1=3 -d
 ```
+
+# docker swarm
+```
+sudo -s
+docker swarm init --advertise-addr 192.168.2.166:2377 --listen-addr 192.168.2.166:2377
+
+```
+To add a worker to this swarm, (on the worker node) run 'docker swarm join-token worker' and follow the instructions.  
+
+    docker swarm join --token SWMTKN-1-6d3c7zu03e8cc9clg2dskz1k29rsx9krfyr313kqwrmj35sdca-azdlanchjtb49e7s92o64dsed 192.168.2.166:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.  
+
+TEST:
+if not use docker login, the worker node will be rejected when try to pull image!  
+```
+docker login
+
+docker network create -d overlay tomcat-net
+
+docker service create --name tomcat \
+--with-registry-auth \
+--network tomcat-net \
+-p 8080:8080 \
+--replicas 3 \
+tomcat:7.0.96-jdk8-openjdk
+```
