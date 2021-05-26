@@ -195,5 +195,6 @@ tomcat:7.0.96-jdk8-openjdk
 ```
 use docker stack deploy instead of docker compose!
 ```
-docker stack deploy -c docker-compose.yml project
+docker stack deploy --with-registry-auth -c docker-compose.yml project
+docker service scale project_worker_1=20
 ```
