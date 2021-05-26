@@ -193,3 +193,7 @@ docker service create --name tomcat \
 --replicas 3 \
 tomcat:7.0.96-jdk8-openjdk
 ```
+use docker stack deploy instead of docker compose!
+```
+docker stack deploy -c docker-compose.yml project
+```
