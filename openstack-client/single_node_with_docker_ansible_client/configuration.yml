@@ -189,11 +189,11 @@
    - name: Copy post-receive from local host to prod
      copy:
        src: /home/ubuntu/DE2_Project/ci_cd/post-receive
-       dest: /home/appuser/my_project/.git/hooks/
+       dest: /home/appuser/my_project/hooks/
        force: true
 
    - name: Change mode of hooks
      command: chmod +x post-receive
      args:
-       chdir: /home/appuser/my_project/.git/hooks/
+       chdir: /home/appuser/my_project/hooks/
 
