@@ -190,6 +190,8 @@ docker stack deploy --with-registry-auth -c docker-compose.yml project
 docker service scale project_worker_1=4
 docker stack ps project
 ```
+![image](https://user-images.githubusercontent.com/65893273/119835587-8c1ed400-bf33-11eb-8c50-127d5fbda80d.png)
+
 start celery for test:  
 ```
 celery -A workerA worker --loglevel=debug --concurrency=1 -n worker1@%h
