@@ -5,4 +5,5 @@ numpy
 requests
 matplotlib
 PyGithub
-
+scikit-learn
+pandas
