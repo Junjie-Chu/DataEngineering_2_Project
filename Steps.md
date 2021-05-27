@@ -183,15 +183,6 @@ TEST:
 if not use docker login, the worker node will be rejected when try to pull image!  
 ```
 docker login
-
-docker network create -d overlay tomcat-net
-
-docker service create --name tomcat \
---with-registry-auth \
---network tomcat-net \
--p 8080:8080 \
---replicas 3 \
-tomcat:7.0.96-jdk8-openjdk
 ```
 use docker stack deploy instead of docker compose!
 ```
