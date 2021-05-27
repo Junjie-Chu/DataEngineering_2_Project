@@ -199,4 +199,6 @@ docker stack deploy --with-registry-auth -c docker-compose.yml project
 docker service scale project_worker_1=20
 ```
 start celery for test:  
+```
 celery -A workerA worker --loglevel=debug --concurrency=1 -n worker1@%h
+```
