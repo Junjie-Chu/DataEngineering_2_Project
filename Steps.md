@@ -189,6 +189,8 @@ use docker stack deploy instead of docker compose!
 docker stack deploy --with-registry-auth -c docker-compose.yml project
 docker service scale project_worker_1=4
 docker stack ps project
+docker logs -f --tail=100 b3f4
+docker exec -it b3f4 bash
 ```
 ![image](https://user-images.githubusercontent.com/65893273/119835587-8c1ed400-bf33-11eb-8c50-127d5fbda80d.png)
 
