@@ -187,7 +187,8 @@ docker login
 use docker stack deploy instead of docker compose!
 ```
 docker stack deploy --with-registry-auth -c docker-compose.yml project
-docker service scale project_worker_1=20
+docker service scale project_worker_1=4
+docker stack ps project
 ```
 start celery for test:  
 ```
