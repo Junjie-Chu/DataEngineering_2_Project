@@ -158,7 +158,9 @@ git push production master
 git push production1 master
 ```
 
-## 10. Now visit the page: floatip:5100/accuracy
+## 10. Now visit the page: floatip:5100/RMSE
+![image](https://user-images.githubusercontent.com/65893273/120016066-bac1ab00-c016-11eb-897f-b281cc94b62b.png)
+
 ## 11. Test scalability
 Note: all the tests should be run in the same environment.   
 Run test.py and the start time(just example) will be recorded.  
