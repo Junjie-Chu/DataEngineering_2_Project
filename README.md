@@ -30,7 +30,7 @@ ansible-playbook configuration.yml --private-key=/home/ubuntu/cluster-keys/clust
 ```
 ![image](https://user-images.githubusercontent.com/53885509/119966894-5b47a900-bfde-11eb-9e55-6780081dec6c.png)
 
-## 5. Start to trian models in development node
+## 5. Start to train models in development node
 Log in the development node:  
 ```
 ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.89
