@@ -77,7 +77,19 @@ Copy the best result model to git folder
 cp gdbt_model.m /home/appuser/my_project/
 ```
 ## 7. Do parameter tuning
-Tune the best one!
+Start ray:    
+```
+ray start --head
+```
+![image](https://user-images.githubusercontent.com/65893273/120016981-dd07f880-c017-11eb-9a4a-d605bfb748d4.png)  
+In the .py file:    
+```
+import ray 
+ray.init(address='auto', _redis_password='5241590000000000')
+```
+![image](https://user-images.githubusercontent.com/65893273/120016785-987c5d00-c017-11eb-8e38-c154a8a97063.png)  
+
+
 ## 8. Set up the production cluster(docker swarm)
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
