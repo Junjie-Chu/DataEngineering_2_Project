@@ -1,6 +1,6 @@
 # Steps
 ## 1. login and download
-login in the client via ssh (our client VM floating ip is 130.238.28.185):    
+login in the Orchestration VM via ssh (our Orchestration VM floating ip is 130.238.28.185):    
 ```
 ssh -i /home/junjie-chu/Desktop/DEKEY/DE2_group11.pem ubuntu@130.238.28.185
 ssh -i /Users/mac/Desktop/HU_2020/H20_Period4/DE2/Project/DE2_Project/DE2_group11.pem ubuntu@130.238.28.185
@@ -56,8 +56,8 @@ openstack server list
 openstack image list
 ```
 ![image](https://user-images.githubusercontent.com/65893273/118350121-a6e26780-b587-11eb-97cd-d153329c0d05.png)
-# 3. install Ansible on the client machine.
-Install Ansible packages on the client machine.  
+# 3. install Ansible on the Orchestration machine.
+Install Ansible packages on the Orchestration machine.  
 ```
 # apt update; apt upgrade
 # apt-add-repository ppa:ansible/ansible
@@ -70,9 +70,7 @@ ansible-galaxy collection install community.crypto
 ansible-galaxy collection install ansible.posix
 ```
 
-# Next step is to enter these IP addresses in the Ansible hosts file. But we need to use cloud init to create and configure 3 VMs first! Change the configuration of clould init!
-
-# 4. Add one cloud init file for Parameter tuning server VM.
+# 4. Add cloud init files for Parameter tuning server VM and Production cluster.
 
 # 5. Edit the start_instances.py
 ```
@@ -82,7 +80,7 @@ ansible-galaxy collection install ansible.posix
   floating_ip = None
   image_name = "Ubuntu 20.04 - 2021.03.23" 
 ```  
-  Add some basic setting for start the instance parameter tuning server.
+  Add some basic setting for start the instance parameter tuning server and production cluster.
 # 6. python3 start_instances.py
 ```  
 Instance: prod_server_group11_9473 is in ACTIVE state ip address: 192.168.2.166 130.238.29.82
