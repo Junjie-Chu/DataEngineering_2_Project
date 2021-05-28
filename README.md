@@ -89,7 +89,8 @@ ray.init(address='auto', _redis_password='5241590000000000')
 ```
 ![image](https://user-images.githubusercontent.com/65893273/120016785-987c5d00-c017-11eb-8e38-c154a8a97063.png)  
 
-
+Run ray test file:  
+![image](https://user-images.githubusercontent.com/65893273/120017463-7c2cf000-c018-11eb-85d3-757def2aa1d3.png)   
 ## 8. Set up the production cluster(docker swarm)
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
