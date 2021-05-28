@@ -69,3 +69,11 @@ python3 new modeltraining.py
 docker cp 10704c9eb7bb:/app/model.name /home/DE2_Project/ci_cd/development_server/
 ```
 ## 6. Compare the models
+Select the best one!  
+## 7. Do parameter tuning
+Tune the best one!
+## 8. Push the best model to production cluster!
+GitHook!
+## 9. Set up the production cluster
+something!
+## 10. Now visit the page: floatip:5100/accuracy
