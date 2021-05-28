@@ -99,6 +99,56 @@ git push production master
 ```
 ## 9. Set up the production cluster(docker swarm)
 something!
+1.Log in the Orchestration VM.  
+2.Via Orchestration VM, log in prod1(set it as master of swarm)    
+```
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.89
+```
+3.Change work dir  
+```
+cd /home/DE2_Project/ci_cd/production_server
+```
+4.
+On prod1:  
+```
+docker login
+docker swarm init --advertise-addr 192.168.2.89:2377 --listen-addr 192.168.2.89:2377
+```
+On prod2:  
+To add a worker to this swarm, (on the worker node) run 'docker swarm join-token worker' and follow the instructions.  
+```
+docker swarm join --token SWMTKN-1-2mp6cxamqvsuzve6nd8yjd5ldulnuzmgl6dxjy8dhkssqyg4nk-8bh0npbssxzoesthcuwwcszz2 192.168.2.89:2377
+```
+![image](https://user-images.githubusercontent.com/65893273/120004360-3ae11400-c009-11eb-9437-ed1c667ce7ad.png)
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.   
+5.
+if not use docker login in step 4, sometimes the worker node will be rejected when try to pull image!  
+```
+docker login
+```
+use docker stack deploy instead of docker compose!
+```
+docker stack deploy --with-registry-auth -c docker-compose.yml project
+```
+![image](https://user-images.githubusercontent.com/65893273/120004606-914e5280-c009-11eb-995c-ebda6ba64482.png)  
+```
+docker service scale project_worker_1=4
+```
+![image](https://user-images.githubusercontent.com/65893273/120004696-a7f4a980-c009-11eb-8c26-f444a61d651e.png)  
+```
+docker stack ps project
+```
+![image](https://user-images.githubusercontent.com/65893273/120004917-ea1deb00-c009-11eb-99b8-274b3d645e35.png)   
+```
+docker stack services project
+```
+![image](https://user-images.githubusercontent.com/65893273/120005149-26e9e200-c00a-11eb-9a1d-6522f27b2754.png)  
+If you want to see 1 container more detailed(if the container in prod2, please log in prod 2):    
+```
+docker logs -f --tail=100 b3f4
+docker exec -it b3f4 bash
+```
 ## 10. Now visit the page: floatip:5100/accuracy
 ## 11. Test scalability
 Note: all the tests should be run in the same environment.   
