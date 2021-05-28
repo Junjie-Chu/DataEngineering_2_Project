@@ -79,7 +79,24 @@ The part for dev server in Ansible playbook:
 The part for prod server in Ansible playbook:  
 ![image](https://user-images.githubusercontent.com/65893273/119997693-922fb600-c002-11eb-8a90-39e252cec66b.png)  
 Now push the first model:  
-
+log in devserver:  
+```
+ssh -i cluster-key appuser@<DEVELOPMENT-SERVER-IP>
+```
+Go to the /home/appuser/my_project directory  
+Add files for the commit and commit files   
+```
+git add .
+git commit -m "test 1"
+```
+Connect development server's git to production server's git  
+```
+git remote add production appuser@<PRODUCTIONS-SERVER-IP>:/home/appuser/my_project
+```
+Push your commits to the production server  
+```
+git push production master
+```
 ## 9. Set up the production cluster(docker swarm)
 something!
 ## 10. Now visit the page: floatip:5100/accuracy
