@@ -15,7 +15,7 @@ app = Flask(__name__)
 def index():
     return '<h1>Welcome to the Machine Learning Course.</h1>'
 
-@app.route("/accuracy", methods=['POST', 'GET'])
+@app.route("/RMSE", methods=['POST', 'GET'])
 def accuracy():
     if request.method == 'POST':
         r = get_accuracy.delay()
