@@ -56,6 +56,8 @@ docker build -t trainmodel .
 docker run -it imagename filename.py
 ```
 3. After the .py is changed, copy the new modeltraining.py from the VM to the container   
+Note: if you want to make the containers communicate with the outside VM more easily, you could use ***volumes***.
+We would like to make each container more isolated. So we do not do that.  
 ```
 docker cp /home/DE2_Project/ci_cd/development_server/trainmodel.py 10704c9eb7bb:/app
 ```
@@ -98,7 +100,6 @@ Push your commits to the production server
 git push production master
 ```
 ## 9. Set up the production cluster(docker swarm)
-something!
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
 ```
@@ -108,7 +109,7 @@ ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.89
 ```
 cd /home/DE2_Project/ci_cd/production_server
 ```
-4.
+4.Set up  
 On prod1:  
 ```
 docker login
