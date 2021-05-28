@@ -1,5 +1,6 @@
 # DE2_Project_Group11
-
+cluster setting: Ying Peng, Junjie Chu  
+ML code: Mandus  
 ## 1. Login in the Orchestration VM
 The detailed settings could be read in the Steps.md(step1-step3 are for Orchestration VM).  
 git clone:  
