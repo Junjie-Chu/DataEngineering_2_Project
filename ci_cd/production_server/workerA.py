@@ -24,9 +24,9 @@ def load_data():
     data = pd.read_csv(data_file)
     # list 10 data
     X = data.drop(columns=['stargazers_count'])
-    X = X[0:10]
+    X = X.sample(n= 100, random_state = 1)
     y = data['stargazers_count'].astype(int)
-    y = y[0:10]
+    y = y.sample(n= 100, random_state = 1)
     #y = list(map(int, y))
     #y = np.asarray(y, dtype=np.uint8)
     return X, y
