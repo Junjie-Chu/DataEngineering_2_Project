@@ -77,6 +77,7 @@ Copy the best result model to git folder
 cp gdbt_model.m /home/appuser/my_project/
 ```
 ## 7. Do parameter tuning
+On dev server(headnode):  
 Start ray:    
 ```
 ray start --head
