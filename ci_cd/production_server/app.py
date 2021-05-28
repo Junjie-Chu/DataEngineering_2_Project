@@ -20,7 +20,7 @@ def accuracy():
     if request.method == 'POST':
         r = get_accuracy.delay()
         a = r.get()
-        return '<h1>The accuracy is {}</h1>'.format(a)
+        return '<h1>The Root Mean Square ERROR is {}</h1>'.format(a)
 
     return '''<form method="POST">
     <input type="submit">

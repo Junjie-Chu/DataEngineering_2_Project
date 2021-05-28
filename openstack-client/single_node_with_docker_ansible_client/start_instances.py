@@ -66,37 +66,53 @@ secgroups = ['default']
 key_name = 'DE2_group11'
 
 print ("Creating instances ... ")
-instance_prod = nova.servers.create(name="prod_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_prod, nics=nics,security_groups=secgroups)
+instance_prod1 = nova.servers.create(name="prod_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_prod, nics=nics,security_groups=secgroups)
+instance_prod2 = nova.servers.create(name="prod_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_prod, nics=nics,security_groups=secgroups)
 instance_dev = nova.servers.create(name="dev_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_dev, nics=nics,security_groups=secgroups)
 instance_para = nova.servers.create(name="para_server_group11_"+str(identifier), image=image, flavor=flavor, key_name=key_name,userdata=userdata_para, nics=nics,security_groups=secgroups)
 
-inst_status_prod = instance_prod.status
+inst_status_prod1 = instance_prod1.status
+inst_status_prod2 = instance_prod2.status
 inst_status_dev = instance_dev.status
 inst_status_para = instance_para.status
 
 print ("waiting for 10 seconds.. ")
 time.sleep(10)
 
-while inst_status_prod == 'BUILD' or inst_status_dev == 'BUILD' or inst_status_para == 'BUILD':
-    print ("Instance: "+instance_prod.name+" is in "+inst_status_prod+" state, sleeping for 5 seconds more...")
+while inst_status_prod1 == 'BUILD' or inst_status_prod2 == 'BUILD' or inst_status_dev == 'BUILD' or inst_status_para == 'BUILD':
+    print ("Instance: "+instance_prod1.name+" is in "+inst_status_prod1+" state, sleeping for 5 seconds more...")
+    print ("Instance: "+instance_prod2.name+" is in "+inst_status_prod2+" state, sleeping for 5 seconds more...")
+
     print ("Instance: "+instance_dev.name+" is in "+inst_status_dev+" state, sleeping for 5 seconds more...")
     print ("Instance: "+instance_para.name+" is in "+inst_status_para+" state, sleeping for 5 seconds more...")
     time.sleep(5)
-    instance_prod = nova.servers.get(instance_prod.id)
-    inst_status_prod = instance_prod.status
+    instance_prod1 = nova.servers.get(instance_prod1.id)
+    inst_status_prod1 = instance_prod1.status
+    instance_prod2 = nova.servers.get(instance_prod2.id)
+    inst_status_prod2 = instance_prod2.status
     instance_dev = nova.servers.get(instance_dev.id)
     inst_status_dev = instance_dev.status
     instance_para = nova.servers.get(instance_para.id)
     inst_status_para = instance_para.status
 
-ip_address_prod = None
-for network in instance_prod.networks[private_net]:
+ip_address_prod1 = None
+for network in instance_prod1.networks[private_net]:
     if re.match('\d+\.\d+\.\d+\.\d+', network):
-        ip_address_prod = network
+        ip_address_prod1 = network
         break
-if ip_address_prod is None:
+if ip_address_prod1 is None:
     raise RuntimeError('No IP address assigned!')
 
+ip_address_prod2 = None
+for network in instance_prod2.networks[private_net]:
+    if re.match('\d+\.\d+\.\d+\.\d+', network):
+        ip_address_prod2 = network
+        break
+if ip_address_prod2 is None:
+    raise RuntimeError('No IP address assigned!')
+    
+    
+    
 ip_address_dev = None
 for network in instance_dev.networks[private_net]:
     if re.match('\d+\.\d+\.\d+\.\d+', network):
@@ -113,6 +129,8 @@ for network in instance_para.networks[private_net]:
 if ip_address_para is None:
     raise RuntimeError('No IP address assigned!')    
 
-print ("Instance: "+ instance_prod.name +" is in " + inst_status_prod + " state" + " ip address: "+ ip_address_prod)
+print ("Instance: "+ instance_prod1.name +" is in " + inst_status_prod1 + " state" + " ip address: "+ ip_address_prod1)
+
+print ("Instance: "+ instance_prod2.name +" is in " + inst_status_prod2 + " state" + " ip address: "+ ip_address_prod2)
 print ("Instance: "+ instance_dev.name +" is in " + inst_status_dev + " state" + " ip address: "+ ip_address_dev)
 print ("Instance: "+ instance_para.name +" is in " + inst_status_para + " state" + " ip address: "+ ip_address_para)

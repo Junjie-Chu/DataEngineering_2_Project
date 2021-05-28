@@ -161,3 +161,40 @@ ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.6
 jupyter notebook --no-browser --ip=* --port=5100
 
 ```
+
+# 12 increase the number of workers in production server
+```
+docker-compose up --scale worker_1=3 -d
+```
+
+# docker swarm
+```
+sudo -s
+docker swarm init --advertise-addr 192.168.2.166:2377 --listen-addr 192.168.2.166:2377
+
+```
+To add a worker to this swarm, (on the worker node) run 'docker swarm join-token worker' and follow the instructions.  
+
+    docker swarm join --token SWMTKN-1-6d3c7zu03e8cc9clg2dskz1k29rsx9krfyr313kqwrmj35sdca-azdlanchjtb49e7s92o64dsed 192.168.2.166:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.  
+
+TEST:
+if not use docker login, the worker node will be rejected when try to pull image!  
+```
+docker login
+```
+use docker stack deploy instead of docker compose!
+```
+docker stack deploy --with-registry-auth -c docker-compose.yml project
+docker service scale project_worker_1=4
+docker stack ps project
+docker logs -f --tail=100 b3f4
+docker exec -it b3f4 bash
+```
+![image](https://user-images.githubusercontent.com/65893273/119835587-8c1ed400-bf33-11eb-8c50-127d5fbda80d.png)
+
+start celery for test:  
+```
+celery -A workerA worker --loglevel=debug --concurrency=1 -n worker1@%h
+```

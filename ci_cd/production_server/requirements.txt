@@ -4,3 +4,6 @@ celery
 keras
 tensorflow==2.2.0
 future
+pandas
+joblib
+scikit-learn
