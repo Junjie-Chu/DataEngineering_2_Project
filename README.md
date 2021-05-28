@@ -68,4 +68,4 @@ python3 new modeltraining.py
 ```
 docker cp 10704c9eb7bb:/app/model.name /home/DE2_Project/ci_cd/development_server/
 ```
-## 6.Compare the models
+## 6. Compare the models
