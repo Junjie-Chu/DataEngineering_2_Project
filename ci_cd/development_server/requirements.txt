@@ -7,3 +7,4 @@ matplotlib
 PyGithub
 scikit-learn
 pandas
+joblib
