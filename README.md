@@ -71,7 +71,11 @@ python3 new modeltraining.py
 docker cp 10704c9eb7bb:/app/model.name /home/DE2_Project/ci_cd/development_server/
 ```
 ## 6. Compare the models
-Select the best one!  
+Select the best one!    
+Copy the best result model to git folder   
+```
+cp gdbt_model.m /home/appuser/my_project/
+```
 ## 7. Do parameter tuning
 Tune the best one!
 ## 8. Push the best model to production cluster! 
