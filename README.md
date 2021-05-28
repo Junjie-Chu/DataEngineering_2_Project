@@ -72,8 +72,23 @@ docker cp 10704c9eb7bb:/app/model.name /home/DE2_Project/ci_cd/development_serve
 Select the best one!  
 ## 7. Do parameter tuning
 Tune the best one!
-## 8. Push the best model to production cluster!
-GitHook!
-## 9. Set up the production cluster
+## 8. Push the best model to production cluster! 
+The ci/cd is realized by githook. The setting of githook is realized via Ansible playbook.  
+The part for dev server in Ansible playbook:  
+![image](https://user-images.githubusercontent.com/65893273/119997600-77f5d800-c002-11eb-8337-9a674ca26cab.png)  
+The part for prod server in Ansible playbook:  
+![image](https://user-images.githubusercontent.com/65893273/119997693-922fb600-c002-11eb-8a90-39e252cec66b.png)  
+Now push the first model:  
+
+## 9. Set up the production cluster(docker swarm)
 something!
 ## 10. Now visit the page: floatip:5100/accuracy
+## 11. Test scalability
+Note: all the tests should be run in the same environment.   
+Run test.py and the start time(just example) will be recorded.  
+![image](https://user-images.githubusercontent.com/65893273/119993769-84783180-bffe-11eb-80f0-4bfe7545116e.png)  
+The end time(just example):  
+![image](https://user-images.githubusercontent.com/65893273/119994699-6bbc4b80-bfff-11eb-9a65-5b100665caf4.png)  
+
+
+
