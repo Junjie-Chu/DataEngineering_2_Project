@@ -83,9 +83,10 @@ ansible-galaxy collection install ansible.posix
   Add some basic setting for start the instance parameter tuning server and production cluster.
 # 6. python3 start_instances.py
 ```  
-Instance: prod_server_group11_9473 is in ACTIVE state ip address: 192.168.2.166 130.238.29.82
-Instance: dev_server_group11_9473 is in ACTIVE state ip address:  192.168.2.6
-Instance: para_server_group11_9473 is in ACTIVE state ip address: 192.168.2.216
+Instance: prod1_server_group11_4292 is in ACTIVE state ip address: 192.168.2.89
+Instance: prod2_server_group11_4292 is in ACTIVE state ip address: 192.168.2.90
+Instance: dev_server_group11_4292 is in ACTIVE state ip address: 192.168.2.124
+Instance: para_server_group11_4292 is in ACTIVE state ip address: 192.168.2.242
 ```  
    
 # 7 Edit ansible   
@@ -95,25 +96,32 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtSrktFxWmEw/q3queNQcNeGQ0XRHaXe4iWp/1H3Wg
 change ansible hosts file
 ``` 
 [servers]
-prodserver ansible_host=192.168.2.50
-devserver ansible_host=192.168.2.13
-paraserver ansible_host=192.168.2.155
+prodserver1 ansible_host=192.168.2.89
+prodserver2 ansible_host=192.168.2.90
+devserver ansible_host=192.168.2.124
+paraserver ansible_host=192.168.2.242
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 
-[prodserver]
-prodserver ansible_connection=ssh ansible_user=appuser
+[prodserver1]
+prodserver1 ansible_connection=ssh ansible_user=appuser
+
+[prodserver2]
+prodserver2 ansible_connection=ssh ansible_user=appuser
 
 [devserver]
 devserver ansible_connection=ssh ansible_user=appuser
+
 [paraserver]
 paraserver ansible_connection=ssh ansible_user=appuser
+
 ``` 
 ``` 
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.166
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.6
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.216
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.89
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.90
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.124
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.242
 ``` 
 
 # 8 Start the ansible configuration
