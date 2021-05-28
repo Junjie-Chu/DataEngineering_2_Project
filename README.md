@@ -78,32 +78,7 @@ cp gdbt_model.m /home/appuser/my_project/
 ```
 ## 7. Do parameter tuning
 Tune the best one!
-## 8. Push the best model to production cluster! 
-The ci/cd is realized by githook. The setting of githook is realized via Ansible playbook.  
-The part for dev server in Ansible playbook:  
-![image](https://user-images.githubusercontent.com/65893273/119997600-77f5d800-c002-11eb-8337-9a674ca26cab.png)  
-The part for prod server in Ansible playbook:  
-![image](https://user-images.githubusercontent.com/65893273/119997693-922fb600-c002-11eb-8a90-39e252cec66b.png)  
-Now push the first model:  
-log in devserver:  
-```
-ssh -i cluster-key appuser@<DEVELOPMENT-SERVER-IP>
-```
-Go to the /home/appuser/my_project directory  
-Add files for the commit and commit files   
-```
-git add .
-git commit -m "test 1"
-```
-Connect development server's git to production server's git  
-```
-git remote add production appuser@<PRODUCTIONS-SERVER-IP>:/home/appuser/my_project
-```
-Push your commits to the production server  
-```
-git push production master
-```
-## 9. Set up the production cluster(docker swarm)
+## 8. Set up the production cluster(docker swarm)
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
 ```
@@ -154,6 +129,35 @@ If you want to see 1 container more detailed(if the container in prod2, please l
 docker logs -f --tail=100 b3f4
 docker exec -it b3f4 bash
 ```
+## 9. Push the best model to production cluster! 
+The ci/cd is realized by githook. The setting of githook is realized via Ansible playbook.  
+The part for dev server in Ansible playbook:  
+![image](https://user-images.githubusercontent.com/65893273/119997600-77f5d800-c002-11eb-8337-9a674ca26cab.png)  
+The part for prod server in Ansible playbook:  
+![image](https://user-images.githubusercontent.com/65893273/119997693-922fb600-c002-11eb-8a90-39e252cec66b.png)  
+Now push the first model:  
+Make sure your are appuser instead of root!  
+log in devserver:  
+```
+ssh -i cluster-key appuser@<DEVELOPMENT-SERVER-IP>
+```
+Go to the /home/appuser/my_project directory  
+Add files for the commit and commit files   
+```
+git add .
+git commit -m "test 1"
+```
+Connect development server's git to production server's git  
+```
+git remote add production appuser@<PRODUCTIONS-SERVER-IP>:/home/appuser/my_project
+git remote add production1 appuser@<PRODUCTIONS-SERVER-IP>:/home/appuser/my_project
+```
+Push your commits to the production server  
+```
+git push production master
+git push production1 master
+```
+
 ## 10. Now visit the page: floatip:5100/accuracy
 ## 11. Test scalability
 Note: all the tests should be run in the same environment.   
