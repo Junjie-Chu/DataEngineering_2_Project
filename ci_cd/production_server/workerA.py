@@ -1,3 +1,13 @@
+import pandas as pd
+import numpy as np
+import pickle
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_validate, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import r2_score, mean_squared_error
+import joblib
 from celery import Celery
 
 from numpy import loadtxt
@@ -5,61 +15,55 @@ import numpy as np
 from keras.models import model_from_json
 from keras.models import Sequential
 
-model_json_file = './model.json'
-model_weights_file = './model.h5'
-data_file = './pima-indians-diabetes.csv'
+
+data_file = 'preprosessedData.csv'
+#the model name we load!
+model = 'gdbt.m'
 
 def load_data():
-    dataset =  loadtxt(data_file, delimiter=',')
-    X = dataset[:,0:8]
-    y = dataset[:,8]
-    y = list(map(int, y))
-    y = np.asarray(y, dtype=np.uint8)
+    data = pd.read_csv(data_file)
+    # list 10 data
+    X = data.drop(columns=['stargazers_count'])
+    X = X[0:10]
+    y = data['stargazers_count'].astype(int)
+    y = y[0:10]
+    #y = list(map(int, y))
+    #y = np.asarray(y, dtype=np.uint8)
     return X, y
 
-def load_model():
-    # load json and create model
-    json_file = open(model_json_file, 'r')
-    loaded_model_json = json_file.read()
-    json_file.close()
-    loaded_model = model_from_json(loaded_model_json)
-    # load weights into new model
-    loaded_model.load_weights(model_weights_file)
-    #print("Loaded model from disk")
-    return loaded_model
 
+def load_model():
+    loaded_model = joblib.load(model)
+    return loaded_model
 # Celery configuration
-CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbit:5672/'
+CELERY_BROKER_URL = 'pyamqp://rabbitmq:rabbitmq@rabbit:5672/'
 CELERY_RESULT_BACKEND = 'rpc://'
 # Initialize Celery
-celery = Celery('workerA', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
-
-@celery.task()
-def add_nums(a, b):
-   return a + b
+celery = Celery('workerA',broker=CELERY_BROKER_URL,backend=CELERY_RESULT_BACKEND)
 
 @celery.task
 def get_predictions():
     results ={}
     X, y = load_data()
     loaded_model = load_model()
-    predictions = loaded_model.predict_classes(X)
+    predictions = loaded_model.predict(X)
     results['y'] = y.tolist()
     results['predicted'] =[]
-    #print ('results[y]:', results['y'])
+    # print ('results[y]:', results['y'])
     for i in range(len(results['y'])):
-        #print('%s => %d (expected %d)' % (X[i].tolist(), predictions[i], y[i]))
-        results['predicted'].append(predictions[i].tolist()[0])
-    #print ('results:', results)
+        print('%s => %f (expected %f)' % (X[i:i+1].values.tolist(), predictions[i], y[i:i+1]))
+        #print(X[i:i+1].values.tolist())
+        #print(predictions[i])
+        #print(y[i:i+1])
+        results['predicted'].append(predictions[i].tolist())
+    # print ('results:', results)
     return results
 
 @celery.task
 def get_accuracy():
     X, y = load_data()
     loaded_model = load_model()
-    loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-
-    score = loaded_model.evaluate(X, y, verbose=0)
-    #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
-    return score[1]*100
-
+    predictions = loaded_model.predict(X)
+    test_score = mean_squared_error(y, predictions, squared= False)
+    print ('RMSE:', test_score)
+    return test_score
