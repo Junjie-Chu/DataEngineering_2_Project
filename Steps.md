@@ -1,6 +1,6 @@
 # Steps
 ## 1. login and download
-login in the client via ssh (our client VM floating ip is 130.238.28.185):    
+login in the Orchestration VM via ssh (our Orchestration VM floating ip is 130.238.28.185):    
 ```
 ssh -i /home/junjie-chu/Desktop/DEKEY/DE2_group11.pem ubuntu@130.238.28.185
 ssh -i /Users/mac/Desktop/HU_2020/H20_Period4/DE2/Project/DE2_Project/DE2_group11.pem ubuntu@130.238.28.185
@@ -56,8 +56,8 @@ openstack server list
 openstack image list
 ```
 ![image](https://user-images.githubusercontent.com/65893273/118350121-a6e26780-b587-11eb-97cd-d153329c0d05.png)
-# 3. install Ansible on the client machine.
-Install Ansible packages on the client machine.  
+# 3. install Ansible on the Orchestration machine.
+Install Ansible packages on the Orchestration machine.  
 ```
 # apt update; apt upgrade
 # apt-add-repository ppa:ansible/ansible
@@ -70,9 +70,7 @@ ansible-galaxy collection install community.crypto
 ansible-galaxy collection install ansible.posix
 ```
 
-# Next step is to enter these IP addresses in the Ansible hosts file. But we need to use cloud init to create and configure 3 VMs first! Change the configuration of clould init!
-
-# 4. Add one cloud init file for Parameter tuning server VM.
+# 4. Add cloud init files for Parameter tuning server VM and Production cluster.
 
 # 5. Edit the start_instances.py
 ```
@@ -82,12 +80,13 @@ ansible-galaxy collection install ansible.posix
   floating_ip = None
   image_name = "Ubuntu 20.04 - 2021.03.23" 
 ```  
-  Add some basic setting for start the instance parameter tuning server.
+  Add some basic setting for start the instance parameter tuning server and production cluster.
 # 6. python3 start_instances.py
 ```  
-Instance: prod_server_group11_9473 is in ACTIVE state ip address: 192.168.2.166 130.238.29.82
-Instance: dev_server_group11_9473 is in ACTIVE state ip address:  192.168.2.6
-Instance: para_server_group11_9473 is in ACTIVE state ip address: 192.168.2.216
+Instance: prod1_server_group11_4292 is in ACTIVE state ip address: 192.168.2.89
+Instance: prod2_server_group11_4292 is in ACTIVE state ip address: 192.168.2.90
+Instance: dev_server_group11_4292 is in ACTIVE state ip address: 192.168.2.124
+Instance: para_server_group11_4292 is in ACTIVE state ip address: 192.168.2.242
 ```  
    
 # 7 Edit ansible   
@@ -97,25 +96,32 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtSrktFxWmEw/q3queNQcNeGQ0XRHaXe4iWp/1H3Wg
 change ansible hosts file
 ``` 
 [servers]
-prodserver ansible_host=192.168.2.50
-devserver ansible_host=192.168.2.13
-paraserver ansible_host=192.168.2.155
+prodserver1 ansible_host=192.168.2.89
+prodserver2 ansible_host=192.168.2.90
+devserver ansible_host=192.168.2.124
+paraserver ansible_host=192.168.2.242
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 
-[prodserver]
-prodserver ansible_connection=ssh ansible_user=appuser
+[prodserver1]
+prodserver1 ansible_connection=ssh ansible_user=appuser
+
+[prodserver2]
+prodserver2 ansible_connection=ssh ansible_user=appuser
 
 [devserver]
 devserver ansible_connection=ssh ansible_user=appuser
+
 [paraserver]
 paraserver ansible_connection=ssh ansible_user=appuser
+
 ``` 
 ``` 
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.166
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.6
-ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.216
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.89
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.90
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.124
+ssh -i /home/ubuntu/cluster-keys/cluster-key appuser@192.168.2.242
 ``` 
 
 # 8 Start the ansible configuration

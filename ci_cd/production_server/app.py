@@ -1,4 +1,4 @@
-from workerA import add_nums, get_accuracy, get_predictions
+from workerA import get_accuracy, get_predictions
 
 from flask import (
    Flask,
@@ -13,9 +13,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return '<h1>Welcome to the Machine Learning Course.</h1>'
+    return '<h1>Welcome to our project. Group 11.</h1>'
 
-@app.route("/accuracy", methods=['POST', 'GET'])
+@app.route("/RMSE", methods=['POST', 'GET'])
 def accuracy():
     if request.method == 'POST':
         r = get_accuracy.delay()
