@@ -78,21 +78,46 @@ Copy the best result model to git folder
 cp gdbt_model.m /home/appuser/my_project/
 ```
 ## 7. Do parameter tuning
-On dev server(headnode):  
-Start ray:    
+On the head node (just choose some node to be the head node, in our case, we use dev server as head node), run the following. If the --port argument is omitted, Ray will choose port 6379, falling back to a random port.
 ```
-ray start --head
+$ ray start --head
+or
+$ ray start --head --port=6379
+...
+Next steps
+  To connect to this Ray runtime from another node, run
+    ray start --address='<ip address>:6379' --redis-password='<password>'
+
+If connection fails, check your firewall settings and network configuration.
+The command will print out the address of the Redis server that was started (the local node IP address plus the port number you specified).
 ```
-![image](https://user-images.githubusercontent.com/65893273/120016981-dd07f880-c017-11eb-9a4a-d605bfb748d4.png)  
+Then on each of the other nodes, run the following. Make sure to replace \<address\> \<password\> with the value printed by the command on the head node (it should look something like 192.168.2.89:6379).  
+
+```
+$ ray start --address=<address> --redis-password='<password>'
+--------------------
+Ray runtime started.
+--------------------
+```
+To terminate the Ray runtime, run
+```
+$  ray stop
+```
 In the .py file:    
 ```
 import ray 
 ray.init(address='auto', _redis_password='5241590000000000')
 ```
-![image](https://user-images.githubusercontent.com/65893273/120016785-987c5d00-c017-11eb-8e38-c154a8a97063.png)  
-
+Note: In our project, the ray cluster contains 2 servers: devserver(192.168.2.89) and paraserver(192.168.2.90).   
+You could easily use more nodes if you want.  
 Run ray test file:  
 ![image](https://user-images.githubusercontent.com/65893273/120017463-7c2cf000-c018-11eb-85d3-757def2aa1d3.png)   
+Sometimes, it reminds us to re-run the ray install command, please use:  
+```
+pip install ray[default]
+pip install ray[rllib]
+```
+Or something others it says.  
 ## 8. Set up the production cluster(docker swarm)
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
