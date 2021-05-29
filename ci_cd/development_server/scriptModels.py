@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import pickle
 from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 #from sklearn.model_selection import cross_validate, cross_val_score
 from sklearn.preprocessing import StandardScaler
@@ -24,7 +24,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random
 
 
 #Randomforest 
-rfc = RandomForestClassifier(n_jobs = -1, random_state=seed)
+rfc = RandomForestRegressor(n_jobs = -1, random_state=seed)
 rfc.fit(X_train,y_train)
 #Pickla modellen
 RFC_pickle = pickle.dumps(rfc)
