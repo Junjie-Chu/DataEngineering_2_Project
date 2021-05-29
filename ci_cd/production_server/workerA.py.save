@@ -1,3 +1,4 @@
+
 import pandas as pd
 import numpy as np
 import pickle
@@ -18,7 +19,7 @@ from keras.models import Sequential
 
 data_file = 'preprosessedData.csv'
 #the model name we load!
-model = 'rfc_model.m'
+model = 'gdbt.m'
 
 def load_data():
     data = pd.read_csv(data_file)
