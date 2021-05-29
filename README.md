@@ -1,5 +1,6 @@
 # DE2_Project_Group11
-
+Cluster setting: Ying Peng, Junjie Chu  
+ML code: Mandus  
 ## 1. Login in the Orchestration VM
 The detailed settings could be read in the Steps.md(step1-step3 are for Orchestration VM).  
 git clone:  
@@ -77,7 +78,53 @@ Copy the best result model to git folder
 cp gdbt_model.m /home/appuser/my_project/
 ```
 ## 7. Do parameter tuning
-Tune the best one!
+On the head node (just choose some node to be the head node, in our case, we use dev server as head node), run the following. If the --port argument is omitted, Ray will choose port 6379, falling back to a random port.
+```
+$ ray start --head
+or
+$ ray start --head --port=6379
+...
+Next steps
+  To connect to this Ray runtime from another node, run
+    ray start --address='<ip address>:6379' --redis-password='<password>'
+
+If connection fails, check your firewall settings and network configuration.
+The command will print out the address of the Redis server that was started (the local node IP address plus the port number you specified).
+```
+Then on each of the other nodes, run the following. Make sure to replace \<address\> \<password\> with the value printed by the command on the head node (it should look something like 192.168.2.89:6379).  
+
+```
+$ ray start --address=<address> --redis-password='<password>'
+--------------------
+Ray runtime started.
+--------------------
+```
+To terminate the Ray runtime, run
+```
+$  ray stop
+```
+In the .py file:    
+```
+import ray 
+ray.init(address='auto', _redis_password='5241590000000000')
+```
+Note: In our project, the ray cluster contains 2 servers: devserver(192.168.2.124) and paraserver(192.168.2.242).   
+You could easily use more nodes if you want.  
+We have run Nerual Network, the result as follows:
+![image](https://user-images.githubusercontent.com/53885509/120076975-b363d580-c0da-11eb-8336-d23e70fb6478.png)
+Random Forest Regressor
+![image](https://user-images.githubusercontent.com/53885509/120076934-80b9dd00-c0da-11eb-82f4-97afd9282356.png)
+Gradient Boosting Regressor
+![image](https://user-images.githubusercontent.com/53885509/120077027-e6a66480-c0da-11eb-9129-920aa947c8f3.png)
+Here we can see that best model is random forest regressor. 
+
+
+Sometimes, it reminds us to re-run the ray install command, please use:  
+```
+pip install ray[default]
+pip install ray[rllib]
+```
+Or something others it says.  
 ## 8. Set up the production cluster(docker swarm)
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
@@ -158,7 +205,9 @@ git push production master
 git push production1 master
 ```
 
-## 10. Now visit the page: floatip:5100/accuracy
+## 10. Now visit the page: floatip:5100/RMSE
+![image](https://user-images.githubusercontent.com/65893273/120016066-bac1ab00-c016-11eb-897f-b281cc94b62b.png)
+
 ## 11. Test scalability
 Note: all the tests should be run in the same environment.   
 Run test.py and the start time(just example) will be recorded.  
