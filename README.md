@@ -108,10 +108,17 @@ In the .py file:
 import ray 
 ray.init(address='auto', _redis_password='5241590000000000')
 ```
-Note: In our project, the ray cluster contains 2 servers: devserver(192.168.2.89) and paraserver(192.168.2.90).   
+Note: In our project, the ray cluster contains 2 servers: devserver(192.168.2.124) and paraserver(192.168.2.242).   
 You could easily use more nodes if you want.  
-Run ray test file:  
-![image](https://user-images.githubusercontent.com/65893273/120017463-7c2cf000-c018-11eb-85d3-757def2aa1d3.png)   
+We have run Nerual Network, the result as follows:
+![image](https://user-images.githubusercontent.com/53885509/120076975-b363d580-c0da-11eb-8336-d23e70fb6478.png)
+Random Forest Regressor
+![image](https://user-images.githubusercontent.com/53885509/120076934-80b9dd00-c0da-11eb-82f4-97afd9282356.png)
+Gradient Boosting Regressor
+![image](https://user-images.githubusercontent.com/53885509/120077027-e6a66480-c0da-11eb-9129-920aa947c8f3.png)
+Here we can see that best model is random forest regressor. 
+
+
 Sometimes, it reminds us to re-run the ray install command, please use:  
 ```
 pip install ray[default]
