@@ -15,7 +15,7 @@ import numpy as np
 from keras.models import model_from_json
 from keras.models import Sequential
 
-
+#the data file name!
 data_file = 'preprosessedData.csv'
 #the model name we load!
 model = 'gdbt.m'
