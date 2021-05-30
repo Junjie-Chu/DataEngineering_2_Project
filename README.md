@@ -126,6 +126,14 @@ pip install ray[default]
 pip install ray[rllib]
 ```
 Or something others it says.  
+***Strong Scalability:***  
+Using 1/2/4 nodes with the same total workload(8 sets of parameters of NN)  
+![image](https://user-images.githubusercontent.com/65893273/120092667-58b49300-c147-11eb-9014-553d212fd4b9.png)  
+![image](https://user-images.githubusercontent.com/65893273/120092678-7124ad80-c147-11eb-8d05-f782bbc74a3c.png)  
+Weak Scalability:  
+Using 1/2/4 nodes with the same local workload(8/16/32 sets of parameters of NN in total, 8 set in each node)  
+![image](https://user-images.githubusercontent.com/65893273/120092790-556dd700-c148-11eb-9537-4b4c691f86b4.png)  
+![image](https://user-images.githubusercontent.com/65893273/120092785-3ff8ad00-c148-11eb-823b-fc57b5bd0591.png)  
 ## 8. Set up the production cluster(docker swarm)
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
