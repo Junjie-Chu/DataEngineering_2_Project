@@ -12,7 +12,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 import tensorflow as tf
 from tensorflow.keras import datasets, models, layers 
 from tensorflow.keras.layers import Dense, Dropout
-from keras.wrappers.scikit_learn import KerasRegressor
+from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 
 #Neural Network 
 def DenseModel():
