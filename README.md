@@ -110,6 +110,7 @@ ray.init(address='auto', _redis_password='5241590000000000')
 ```
 Note: In our project, the ray cluster contains 2 servers: devserver(192.168.2.124) and paraserver(192.168.2.242).   
 You could easily use more nodes if you want.  
+NOTE: Ray needs you to be **root**  
 We have run Nerual Network, the result as follows:
 ![image](https://user-images.githubusercontent.com/53885509/120076975-b363d580-c0da-11eb-8336-d23e70fb6478.png)
 Random Forest Regressor
