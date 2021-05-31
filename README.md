@@ -1,6 +1,7 @@
 # DE2_Project_Group11
-Cluster setting: Ying Peng, Junjie Chu  
-ML code: Mandus  
+Cluster setting and Debug: *Ying Peng, Junjie Chu*   
+Ray code and Debug: *Ying Peng, Junjie Chu*  
+ML code and Debug: *Mandus, Ying Peng*  
 ## 1. Login in the Orchestration VM
 The detailed settings could be read in the Steps.md(step1-step3 are for Orchestration VM).  
 git clone:  
@@ -110,8 +111,9 @@ ray.init(address='auto', _redis_password='5241590000000000')
 ```
 Note: In our project, the ray cluster contains 2 servers: devserver(192.168.2.124) and paraserver(192.168.2.242).   
 You could easily use more nodes if you want.  
+NOTE: Ray needs you to be **root**  
 We have run Nerual Network, the result as follows:
-![image](https://user-images.githubusercontent.com/53885509/120076975-b363d580-c0da-11eb-8336-d23e70fb6478.png)
+![image](https://user-images.githubusercontent.com/53885509/120124371-c794f900-c1e6-11eb-8970-81240e3c5f54.png)
 Random Forest Regressor
 ![image](https://user-images.githubusercontent.com/53885509/120076934-80b9dd00-c0da-11eb-82f4-97afd9282356.png)
 Gradient Boosting Regressor
@@ -125,6 +127,14 @@ pip install ray[default]
 pip install ray[rllib]
 ```
 Or something others it says.  
+***Strong Scalability:***  
+Using 1/2/4 nodes with the same total workload(8 sets of parameters of NN)  
+![image](https://user-images.githubusercontent.com/65893273/120092667-58b49300-c147-11eb-9014-553d212fd4b9.png)  
+![image](https://user-images.githubusercontent.com/65893273/120092678-7124ad80-c147-11eb-8d05-f782bbc74a3c.png)  
+Weak Scalability:  
+Using 1/2/4 nodes with the same local workload(8/16/32 sets of parameters of NN in total, 8 set in each node)  
+![image](https://user-images.githubusercontent.com/65893273/120092790-556dd700-c148-11eb-9537-4b4c691f86b4.png)  
+![image](https://user-images.githubusercontent.com/65893273/120092785-3ff8ad00-c148-11eb-823b-fc57b5bd0591.png)  
 ## 8. Set up the production cluster(docker swarm)
 1.Log in the Orchestration VM.  
 2.Via Orchestration VM, log in prod1(set it as master of swarm)    
