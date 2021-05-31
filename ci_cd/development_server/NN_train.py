@@ -55,11 +55,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random
 estimator = KerasRegressor(build_fn=DenseModel, nb_epoch=200, epochs=10, batch_size=25, verbose=True)
 
 NN = estimator.fit(X_train, y_train)
+estimator.model.save("NN_model.h5")
 
 train_predNeural = estimator.predict(X_train)
 test_predNeural = estimator.predict(X_test)
 
 training_scoreNeuralNetwork = mean_squared_error(y_train, train_predNeural, squared= False)
 test_scoreNeuralNetwork = mean_squared_error(y_test, test_predNeural, squared= False)
+print("RMSE training score on Neural network ", training_scoreNeuralNetwork)
 print("RMSE testeing score on Neural network", test_scoreNeuralNetwork)
-print("te111111st")
+
