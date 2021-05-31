@@ -129,8 +129,8 @@ pip install ray[rllib]
 Or something others it says.  
 ***Strong Scalability:***  
 Using 1/2/4 nodes with the same total workload(8 sets of parameters of NN)  
-![image](https://user-images.githubusercontent.com/65893273/120092667-58b49300-c147-11eb-9014-553d212fd4b9.png)  
-![image](https://user-images.githubusercontent.com/65893273/120092678-7124ad80-c147-11eb-8d05-f782bbc74a3c.png)  
+![image](https://user-images.githubusercontent.com/65893273/120198403-9fdc7a00-c254-11eb-836c-ca58c99e2ad8.png)  
+![image](https://user-images.githubusercontent.com/65893273/120198427-a4089780-c254-11eb-8ab6-c111b5fe8b1d.png)  
 Weak Scalability:  
 Using 1/2/4 nodes with the same local workload(8/16/32 sets of parameters of NN in total, 8 set in each node)  
 ![image](https://user-images.githubusercontent.com/65893273/120092790-556dd700-c148-11eb-9537-4b4c691f86b4.png)  
