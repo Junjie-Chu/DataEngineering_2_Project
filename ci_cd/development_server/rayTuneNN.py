@@ -13,7 +13,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 import tensorflow as tf
 from tensorflow.keras import datasets, models, layers 
 from tensorflow.keras.layers import Dense, Dropout
-from keras.wrappers.scikit_learn import KerasRegressor
+from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 seed = 67
 #Collect the preprossesed data. 
 data = pd.read_csv('preprosessedData.csv')
@@ -60,9 +60,10 @@ def DenseModel(config):
 def trainModel(config):
 
     for i in range(10):
-
-       # estimator = KerasRegressor(build_fn=DenseModel(config), nb_epoch=200, epochs=10, batch_size=25, verbose=True)
-        estimator = DenseModel(config)
+        model = DenseModel(config)
+        estimator = KerasRegressor(lambda: DenseModel(config), nb_epoch=200, epochs=10, batch_size=25, verbose=True)
+        
+        # estimator = DenseModel(config)
         NN = estimator.fit(X_train, y_train)
         test_predNeural = estimator.predict(X_test)
 
