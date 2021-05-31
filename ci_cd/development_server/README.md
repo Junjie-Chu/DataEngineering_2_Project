@@ -1,6 +1,6 @@
 # Introduction of files
 ## Data
-1000repDataNew.csv : Raw Data
+1000repDataNew.csv : Raw Data  
 preprosessedData.csv : Processed Data
 ## Train Model
 GDBT_train.py  
